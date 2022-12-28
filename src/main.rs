@@ -1,5 +1,9 @@
-use clap::{command, Args, Parser, Subcommand};
 mod api;
+use api::commands::Inspect;
+use api::commands::Project;
+use api::commands::Reverse;
+
+use clap::{command, Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(author, version)]
@@ -17,41 +21,12 @@ struct CLI {
 
 #[derive(Subcommand)]
 enum Commands {
-    // Reverses a string
+    /// Reverses a string
     Reverse(Reverse),
-    // Inspects a string
+    /// Inspects a string
     Inspect(Inspect),
+    /// Creates a new React project
     Project(Project),
-}
-
-#[derive(Args)]
-struct Reverse {
-    // The string to reverse
-    string: Option<String>,
-}
-
-#[derive(Args)]
-struct Inspect {
-    // The string to inspect
-    string: Option<String>,
-
-    #[arg(short = 'd', long = "digits")]
-    only_digits: bool,
-}
-
-#[derive(Args)]
-struct Project {
-    // Directory of installation (default value: current directory)
-    #[arg(short = 'd', long = "directory")]
-    directory: Option<String>,
-
-    // Installed with TS by default, changes to JS if true
-    #[arg(short = 'j', long = "javascript")]
-    with_javascript: bool,
-
-    // Installed with YARN by default, changes to NPM if true
-    #[arg(short = 'n', long = "npm")]
-    with_npm: bool,
 }
 
 fn main() {
@@ -82,13 +57,30 @@ fn main() {
                 println!("Please provide a string to inspect");
             }
         },
-        Some(Commands::Project(name)) => match name.directory {
+        Some(Commands::Project(name)) => match name.project_name {
             Some(ref _name) => {
-                let dir = api::rcli::create_project(_name);
-                println!("Creating new project with React-CLI in {}", dir);
+                let (proj, js, npm) =
+                    api::rcli::create_project(_name, name.with_javascript, name.with_npm);
+                println!("\nCreating new project {} with React-CLI", proj);
+                if !js {
+                    println!("Project language: Typescript (default)");
+                } else {
+                    println!("Project language: Javascript");
+                }
+                if !npm {
+                    println!("Project package manager: Yarn (default)");
+                } else {
+                    println!("Project package manager: Npm");
+                }
+
+                println!("\nDone. Now run:\n");
+                println!("   cd {}", proj);
+                println!("   yarn install / npm install");
+                println!("   yarn dev / npm run dev\n");
+                println!("Have fun!\n");
             }
             None => {
-                println!("Please provide a directory");
+                println!("Please provide a project name");
             }
         },
         None => {}
