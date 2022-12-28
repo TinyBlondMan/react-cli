@@ -4,7 +4,8 @@ Using Rust + Clap v4.
 
 ## Disclaimer
 This tool is tailored for my needs. Source files are accessible and easily customozable to suit to your needs.
-Don't hesitate to change files structure, routing system, installation, etc...
+
+Don't hesitate to change files structure, routing system, installation, etc... (in commands, not in project of course)
 You can also add commands I wouldn't have thought of.
 
 ## Docs & links
