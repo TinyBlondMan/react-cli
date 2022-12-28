@@ -21,3 +21,7 @@ pub fn inspect_numbers(input: &String) -> i32 {
 
     return count;
 }
+
+pub fn create_project(directory: &String) -> &String {
+    return directory;
+}
