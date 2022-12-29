@@ -5,6 +5,8 @@ Using Rust + Clap v4.
 ## Disclaimer
 This tool is tailored for my needs. Source files are accessible and easily customizable to suit to your needs.  Only works on Linux, I didn't try on Mac nor Windows.
 
+This is basically my first side project in Rust *(I'm initially a front React dev, but I like this language)*. Thus, the code is probably ugly for Rust developpers, please be kind. Any advice is greatly appreciated.
+
 Don't hesitate to change files structure, routing system, installation, etc... *(in commands, not in project of course)*.
 You can also add commands I wouldn't have thought of.
 

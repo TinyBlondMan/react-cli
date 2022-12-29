@@ -1,8 +1,6 @@
-use super::creates_helpers::{
-    create_folder_structure,
-    create_src_files,
-    init_vite_project,
-    // write_in_file,
+use super::{
+    creates_helpers::{create_folder_structure, create_src_files, init_vite_project},
+    files_contents::{inject_files, return_files},
 };
 
 pub fn create_project(
@@ -17,6 +15,7 @@ pub fn create_project(
         String::from("react")
     };
 
+    // Defines files extension
     let extension: String = if !has_javascript {
         String::from(".ts")
     } else {
@@ -30,20 +29,11 @@ pub fn create_project(
         String::from("npm")
     };
 
-    // Everything runs in these three functions
+    // Everything runs in these four functions
     init_vite_project(&package, &project_name, &language);
     create_folder_structure(&project_name);
     create_src_files(&project_name, &extension);
-
-    // Writing example links constants in links.tsx
-    // match write_in_file(
-    //     String::from("./my-test-project/src/routes/"),
-    //     String::from("links.ts"),
-    //     &return_links(),
-    // ) {
-    //     Err(e) => println!("{:?}", e),
-    //     _ => (),
-    // }
+    inject_files(return_files(&project_name, &extension));
 
     return (project_name, has_javascript, has_npm);
 }

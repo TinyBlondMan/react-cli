@@ -1,6 +1,3 @@
-// use std::fs::File;
-// use std::io::{Error, Write};
-
 use std::process::Command;
 
 // Launches following command in terminal
@@ -55,10 +52,3 @@ pub fn create_src_files(project: &String, extension: &String) {
         .output()
         .expect("Files population failed at some point");
 }
-
-// pub fn write_in_file(dir: String, name: String, text: &str) -> Result<(), Error> {
-//     let file_name = format!("{}{}", dir, name);
-//     let mut file = File::create(file_name)?;
-//     writeln!(file, "{}", text)?; // writing using the macro 'writeln!'
-//     Ok(())
-// }
