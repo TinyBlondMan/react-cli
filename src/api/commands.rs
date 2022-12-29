@@ -13,18 +13,3 @@ pub struct Project {
     #[arg(short = 'n', long = "npm")]
     pub with_npm: bool,
 }
-
-#[derive(Args)]
-pub struct Reverse {
-    /// The string to reverse
-    pub string: Option<String>,
-}
-
-#[derive(Args)]
-pub struct Inspect {
-    /// The string to inspect
-    pub string: Option<String>,
-
-    #[arg(short = 'd', long = "digits")]
-    pub only_digits: bool,
-}

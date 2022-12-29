@@ -1,5 +1,5 @@
-use std::fs::File;
-use std::io::{Error, Write};
+// use std::fs::File;
+// use std::io::{Error, Write};
 
 use std::process::Command;
 
@@ -23,8 +23,8 @@ pub fn create_folder_structure(project: &String) {
         .arg(project.to_string() + "/src/components/common")
         .arg(project.to_string() + "/src/components/forms")
         .arg(project.to_string() + "/src/components/sections")
+        // .arg(project.to_string() + "/src/routes")
         .arg(project.to_string() + "/src/layout")
-        .arg(project.to_string() + "/src/routes")
         .arg(project.to_string() + "/src/hooks")
         .arg(project.to_string() + "/src/data")
         .arg(project.to_string() + "/src/utils")
@@ -36,9 +36,9 @@ pub fn create_folder_structure(project: &String) {
 
 pub fn create_src_files(project: &String, extension: &String) {
     Command::new("touch")
-        .arg(project.to_string() + "/src/routes/links" + extension)
-        .arg(project.to_string() + "/src/routes/router" + extension + "x")
-        .arg(project.to_string() + "/src/routes/pages" + extension + "x")
+        // .arg(project.to_string() + "/src/routes/links" + extension)
+        // .arg(project.to_string() + "/src/routes/router" + extension + "x")
+        // .arg(project.to_string() + "/src/routes/pages" + extension + "x")
         .arg(project.to_string() + "/src/layout/navbar" + extension + "x")
         .arg(project.to_string() + "/src/layout/navbar.scss")
         .arg(project.to_string() + "/src/layout/footer" + extension + "x")
@@ -56,9 +56,9 @@ pub fn create_src_files(project: &String, extension: &String) {
         .expect("Files population failed at some point");
 }
 
-pub fn write_in_file(dir: String, name: String, text: &str) -> Result<(), Error> {
-    let file_name = format!("{}{}", dir, name);
-    let mut file = File::create(file_name)?;
-    writeln!(file, "{}", text)?; // writing using the macro 'writeln!'
-    Ok(())
-}
+// pub fn write_in_file(dir: String, name: String, text: &str) -> Result<(), Error> {
+//     let file_name = format!("{}{}", dir, name);
+//     let mut file = File::create(file_name)?;
+//     writeln!(file, "{}", text)?; // writing using the macro 'writeln!'
+//     Ok(())
+// }
