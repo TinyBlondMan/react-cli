@@ -18,7 +18,9 @@ You can also add commands I wouldn't have thought of.
 cargo run -- project project_name
 ```
 
-By default, will create a new React project with Vite, Typescript, and Yarn.
+I will probably publish a git repo of the result you have when launching this command.
+
+By default, it will create a new React project with Vite, Typescript, and Yarn.
 
 | Short   | Long | Command |
 | ------------- |-------------|-------------|
@@ -27,12 +29,12 @@ By default, will create a new React project with Vite, Typescript, and Yarn.
 | -n      | --npm     | Changes package manager to NPM  |
 
 
-Creates folders: pages, components, layout, utils, styles, data, hooks & styles.
+Also creates folders: pages, components, layout, utils, styles, data, hooks & styles.
 
-Populates folders with various more or less useful files like basic pages and layout components.
+It then populates folders with various more or less useful files like basic pages and layout components.
 
 ## Current work & coming upgrades
-Files are empty for now. Working on it, already working in dev. Once I'm done with project command I'll start working on component command. Component command is made to create individual component folder, index.tsx/jsx and style.scss.
+I started working on component command. Component command is made to create individual component folder, index.tsx/jsx and style.scss.
 
 I also plan to make a router command to add react-router-dom, routes folder and files accorrdingly.
 
