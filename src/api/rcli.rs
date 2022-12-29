@@ -37,3 +37,37 @@ pub fn create_project(
 
     return (project_name, has_javascript, has_npm);
 }
+
+pub fn create_router(
+    routes_folder_name: &String,
+    has_javascript: bool,
+    has_npm: bool,
+    has_basic_links: bool,
+    has_routing_system: bool,
+) -> (&String, bool, bool, bool, bool) {
+    return (
+        routes_folder_name,
+        has_javascript,
+        has_npm,
+        has_basic_links,
+        has_routing_system,
+    );
+}
+
+pub fn create_component<'a, 'b, 'c>(
+    name: &'a String,
+    comp_format: &'b String,
+    comp_type: &'c String,
+    has_javascript: bool,
+    has_no_style: bool,
+    has_css: bool,
+) -> (&'a String, &'b String, &'c String, bool, bool, bool) {
+    return (
+        name,
+        comp_format,
+        comp_type,
+        has_javascript,
+        has_no_style,
+        has_css,
+    );
+}
