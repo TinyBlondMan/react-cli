@@ -90,31 +90,14 @@ fn main() {
         },
         Some(Commands::Component(name)) => match name.component_name {
             Some(ref _name) => {
-                let (comp, comp_fmt, comp_type, js, no_style, css) = api::rcli::create_component(
+                api::rcli::create_component(
                     _name,
                     &name.comp_format,
                     &name.comp_type,
                     name.with_javascript,
-                    name.with_css,
                     name.without_style,
+                    name.with_css,
                 );
-                println!(
-                    "\nCreated new component in src/components/{}/{}",
-                    comp_type, comp
-                );
-                println!("Component format choosen: {}", comp_fmt);
-                println!("Component type choosen: {}", comp_type);
-                if !js {
-                    println!("Created index.tsx.");
-                } else {
-                    println!("Created index.jsx.");
-                }
-                if no_style {
-                    println!("Component will only be an index file with no CSS.")
-                }
-                if css {
-                    println!("Component created with basic CSS and not SCSS.")
-                }
             }
             None => {
                 println!("Please provide a component name");

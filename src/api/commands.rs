@@ -66,11 +66,11 @@ pub struct Component {
     #[arg(short = 'j', long = "javascript")]
     pub with_javascript: bool,
 
-    /// TS by default, changes to JS if true
+    /// Prevents from creating stylesheet
     #[arg(short = 'n', long = "no-style")]
     pub without_style: bool,
 
-    /// TS by default, changes to JS if true
+    /// SCSS by default, changes to CSS if true
     #[arg(short = 'c', long = "css")]
     pub with_css: bool,
 }

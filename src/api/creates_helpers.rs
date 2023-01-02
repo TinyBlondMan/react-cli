@@ -1,5 +1,6 @@
 use std::{
     fs::{self, File},
+    path::Path,
     process::Command,
 };
 
@@ -33,7 +34,7 @@ pub fn create_folder_structure(project: &String) {
         "api",
     ];
     for folder in folders {
-        match create_folder(project, folder) {
+        match create_folder_for_init(project, folder) {
             Err(e) => println!("{:?}", e),
             _ => (),
         };
@@ -60,22 +61,29 @@ pub fn create_src_files(project: &String, extension: &String) {
 
     for f in files {
         if f.1 == ".scss" {
-            create_file(project.to_string() + &f.0 + f.1);
+            create_file_for_init(project.to_string() + &f.0 + f.1);
         } else {
-            create_file(project.to_string() + &f.0 + extension + f.1);
+            create_file_for_init(project.to_string() + &f.0 + extension + f.1);
         }
     }
 }
 
-fn create_folder(project: &String, folder: &str) -> std::io::Result<()> {
+pub fn create_folder_for_init(project: &String, folder: &str) -> std::io::Result<()> {
     fs::create_dir(project.to_string() + "/src/" + folder)?;
     Ok(())
 }
 
-fn create_file(file_path: String) {
+fn create_file_for_init(file_path: String) {
     // Open a file in write-only mode, returns `io::Result<File>`
     match File::create(&file_path) {
         Err(e) => panic!("couldn't create {}: {}", file_path, e),
+        Ok(file) => file,
+    };
+}
+
+pub fn create_component_file(path: &Path) {
+    match File::create(&path) {
+        Err(e) => panic!("Couldn't create component file: {}", e),
         Ok(file) => file,
     };
 }
