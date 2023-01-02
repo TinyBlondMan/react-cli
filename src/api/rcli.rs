@@ -62,6 +62,12 @@ pub fn create_component<'a, 'b, 'c>(
     has_no_style: bool,
     has_css: bool,
 ) -> (&'a String, &'b String, &'c String, bool, bool, bool) {
+    // Defines files extension
+    // let extension: String = if !has_javascript {
+    //     String::from(".ts")
+    // } else {
+    //     String::from(".js")
+    // };
     return (
         name,
         comp_format,

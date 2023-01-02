@@ -38,17 +38,28 @@ pub struct Router {
 
 #[derive(Args)]
 pub struct Component {
-    /// Project name
-    pub name: Option<String>,
+    /// Component name
+    pub component_name: Option<String>,
 
     /// Fills component with const, arrow function, class component, etc...
     ///
-    /// Will give more information on enum later
+    /// Default value:
+    /// tsdrpfc: Typescript Export Default React Pure Function Component;
+    /// Other values:
+    /// rafce: React Arrow Function Export component;
+    /// rfce: React Functional Export component;
+    /// rce: React Class Export component;
+    /// rcredux: React Class component with Redux;
+    /// rfceredux: React Functional Export component with Redux;
+    /// tsrcredux: Typescript React Class component with Redux;
+    #[arg(short = 'f', long = "format")]
     pub comp_format: String,
 
     /// Defines if component is common, form, section, etc...
     ///
-    /// Will give more information on enum later
+    /// Default value: common;
+    /// Other values: forms, sections, pages (in pages folder)
+    #[arg(short = 't', long = "type")]
     pub comp_type: String,
 
     /// TS by default, changes to JS if true

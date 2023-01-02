@@ -85,10 +85,10 @@ fn main() {
                 }
             }
             None => {
-                println!("Please provide a project name");
+                println!("Please provide a route folder name");
             }
         },
-        Some(Commands::Component(name)) => match name.name {
+        Some(Commands::Component(name)) => match name.component_name {
             Some(ref _name) => {
                 let (comp, comp_fmt, comp_type, js, no_style, css) = api::rcli::create_component(
                     _name,
@@ -117,7 +117,7 @@ fn main() {
                 }
             }
             None => {
-                println!("Please provide a project name");
+                println!("Please provide a component name");
             }
         },
         None => {}
