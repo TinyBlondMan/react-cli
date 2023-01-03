@@ -3,13 +3,16 @@ use std::{
     path::Path,
 };
 
-use crate::api::helpers_create::create_component_file;
+use crate::api::{
+    helpers_create::create_component_file,
+    helpers_write::{return_component_index_file, SrcFile},
+};
 
 use super::{
     helpers_create::{
         create_folder_structure, create_src_files, get_current_working_dir, init_vite_project,
     },
-    helpers_write::{inject_files, return_files},
+    helpers_write::{inject_files, match_component_format, return_init_files},
 };
 
 // -----------------------------------------------
@@ -45,7 +48,7 @@ pub fn create_project(
     init_vite_project(&package, &project_name, &language);
     create_folder_structure(&project_name);
     create_src_files(&project_name, &extension);
-    inject_files(return_files(&project_name, &extension));
+    inject_files(return_init_files(&project_name, &extension));
 
     return (project_name, has_javascript, has_npm);
 }
@@ -99,20 +102,17 @@ pub fn create_component<'a, 'b, 'c>(
         String::from(".css")
     };
 
+    let default_type: String = String::from("common");
+    let default_format: String = String::from("tsdrpfc");
+
     // Treats optional string arguments (comp_format and comp_type)
-    let component_type: &str = match comp_type {
-        Some(s) => s,
-        None => "common",
-    };
-    let component_format: &str = match comp_format {
-        Some(s) => s,
-        None => "tsdrpfc",
-    };
+    let component_type: &String = comp_type.as_ref().unwrap_or(&default_type);
+    let component_format: &String = comp_format.as_ref().unwrap_or(&default_format);
 
     // Creating component directory
     let dir_binding = &(get_current_working_dir()
         + &("/src/components/".to_owned())
-        + component_type
+        + &component_type
         + "/"
         + name);
     let component_dir: &Path = Path::new(dir_binding);
@@ -130,7 +130,7 @@ pub fn create_component<'a, 'b, 'c>(
         // Index file creation
         let index_binding = &(get_current_working_dir()
             + &("/src/components/".to_owned())
-            + component_type
+            + &component_type
             + "/"
             + name
             + "/index"
@@ -138,11 +138,16 @@ pub fn create_component<'a, 'b, 'c>(
         let index_path: &Path = Path::new(index_binding);
         create_component_file(index_path);
 
+        // Defines index of the component and the text to be written inside from its format
+        let index_text: String = match_component_format(&component_format.to_string(), name);
+        let index_file: Vec<SrcFile> =
+            return_component_index_file(&js_extension, name, component_type, index_text);
+
         // Style file creation
         if !has_no_style {
             let css_binding = &(get_current_working_dir()
                 + &("/src/components/".to_owned())
-                + component_type
+                + &component_type
                 + "/"
                 + name
                 + "/style"
@@ -151,13 +156,16 @@ pub fn create_component<'a, 'b, 'c>(
             create_component_file(style_path);
         }
 
+        // File injection of index_text variable
+        inject_files(index_file);
+
         // Console output when component created
         println!(
             "\nCreated new component in src/components/{:?}/{}",
             comp_type, name
         );
-        println!("Component format choosen: {:?}", comp_format);
-        println!("Component type choosen: {:?}", comp_type);
+        println!("Component format choosen: {:?}", component_format);
+        println!("Component type choosen: {:?}", component_type);
         if !has_javascript {
             println!("Created index.tsx");
         } else {

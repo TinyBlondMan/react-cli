@@ -59,6 +59,7 @@ pub struct Component {
     ///
     /// Default value: common;
     /// Other values: forms, sections, pages (in pages folder)
+    /// Any other value will create a new component subfolder and insert component inside it.
     #[arg(short = 't', long = "type")]
     pub comp_type: Option<String>,
 

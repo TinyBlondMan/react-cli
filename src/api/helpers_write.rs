@@ -1,10 +1,15 @@
 use std::fs::File;
 use std::io::{Error, Write};
 
+use super::contents_components::{
+    return_rafce, return_rce, return_rcredux, return_rfce, return_rfceredux, return_tsdrpfc,
+    return_tsrcredux,
+};
 use super::contents_init::{
     return_config_js, return_config_ts, return_index_css, return_links_js, return_links_ts,
     return_style_variables, return_usewindowsize_js, return_usewindowsize_ts,
 };
+use super::helpers_create::get_current_working_dir;
 
 /// Chooses between JS and TS versions
 /// extension: ".ts" | ".js"
@@ -18,13 +23,14 @@ fn return_file_content(extension: &String, ts_func: String, js_func: String) -> 
     }
 }
 
+#[derive(Debug)]
 pub struct SrcFile {
     path: String,
     name: String,
     injection: String,
 }
 
-pub fn return_files(project_name: &String, extension: &String) -> Vec<SrcFile> {
+pub fn return_init_files(project_name: &String, extension: &String) -> Vec<SrcFile> {
     let files: Vec<SrcFile> = vec![
         SrcFile {
             path: project_name.to_string() + "/src/routes/",
@@ -61,6 +67,35 @@ pub fn return_files(project_name: &String, extension: &String) -> Vec<SrcFile> {
     ];
 
     return files;
+}
+
+pub fn match_component_format(comp_fmt: &String, name: &String) -> String {
+    match comp_fmt.as_str() {
+        "tsdrpfc" => return_tsdrpfc(&name),
+        "rafce" => return_rafce(&name),
+        "rfce" => return_rfce(&name),
+        "rfc" => return_rce(&name),
+        "rcredux" => return_rcredux(&name),
+        "rfceredux" => return_rfceredux(&name),
+        "tsrcredux" => return_tsrcredux(&name),
+        _ => return_tsdrpfc(&name),
+    }
+}
+
+pub fn return_component_index_file(
+    extension: &String,
+    comp_name: &String,
+    comp_type: &String,
+    text: String,
+) -> Vec<SrcFile> {
+    let index_file: Vec<SrcFile> = vec![SrcFile {
+        path: get_current_working_dir() + "/src/components/" + comp_type + "/" + comp_name,
+        name: String::from("/index") + &extension,
+        injection: text,
+    }];
+    println!("{:#?}", index_file[0]);
+
+    return index_file;
 }
 
 fn write_in_file(dir: String, name: String, text: &str) -> Result<(), Error> {
