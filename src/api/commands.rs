@@ -53,14 +53,14 @@ pub struct Component {
     /// rfceredux: React Functional Export component with Redux;
     /// tsrcredux: Typescript React Class component with Redux;
     #[arg(short = 'f', long = "format")]
-    pub comp_format: String,
+    pub comp_format: Option<String>,
 
     /// Defines if component is common, form, section, etc...
     ///
     /// Default value: common;
     /// Other values: forms, sections, pages (in pages folder)
     #[arg(short = 't', long = "type")]
-    pub comp_type: String,
+    pub comp_type: Option<String>,
 
     /// TS by default, changes to JS if true
     #[arg(short = 'j', long = "javascript")]

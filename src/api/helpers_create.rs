@@ -77,12 +77,13 @@ pub fn create_folder_for_init(project: &String, folder: &str) -> std::io::Result
 fn create_file_for_init(file_path: String) {
     // Open a file in write-only mode, returns `io::Result<File>`
     match File::create(&file_path) {
-        Err(e) => panic!("couldn't create {}: {}", file_path, e),
+        Err(e) => panic!("Couldn't create file {}: {}", file_path, e),
         Ok(file) => file,
     };
 }
 
 pub fn create_component_file(path: &Path) {
+    // Open a file in write-only mode, returns `io::Result<File>`
     match File::create(&path) {
         Err(e) => panic!("Couldn't create component file: {}", e),
         Ok(file) => file,
@@ -90,8 +91,8 @@ pub fn create_component_file(path: &Path) {
 }
 
 pub fn get_current_working_dir() -> String {
-    let path_buf = env::current_dir();
-    let result_current_dir = match path_buf {
+    // All this to get current working directory and get it for concatenable type
+    let result_current_dir = match env::current_dir() {
         Ok(file) => file,
         Err(error) => panic!("Problem opening the file: {:?}", error),
     };

@@ -3,15 +3,18 @@ use std::{
     path::Path,
 };
 
-use crate::api::creates_helpers::create_component_file;
+use crate::api::helpers_create::create_component_file;
 
 use super::{
-    creates_helpers::{
+    helpers_create::{
         create_folder_structure, create_src_files, get_current_working_dir, init_vite_project,
     },
-    files_contents::{inject_files, return_files},
+    helpers_write::{inject_files, return_files},
 };
 
+// -----------------------------------------------
+// ----------- Create project function -----------
+// -----------------------------------------------
 pub fn create_project(
     project_name: &String,
     has_javascript: bool,
@@ -47,6 +50,9 @@ pub fn create_project(
     return (project_name, has_javascript, has_npm);
 }
 
+// -----------------------------------------------
+// ----------- Create router function ------------
+// -----------------------------------------------
 pub fn create_router(
     routes_folder_name: &String,
     has_javascript: bool,
@@ -63,14 +69,24 @@ pub fn create_router(
     );
 }
 
+// -----------------------------------------------
+// ---------- Create component function ----------
+// -----------------------------------------------
 pub fn create_component<'a, 'b, 'c>(
     name: &'a String,
-    comp_format: &'b String,
-    comp_type: &'c String,
+    comp_format: &'b Option<String>,
+    comp_type: &'c Option<String>,
     has_javascript: bool,
     has_no_style: bool,
     has_css: bool,
-) -> (&'a String, &'b String, &'c String, bool, bool, bool) {
+) -> (
+    &'a String,
+    &'b Option<String>,
+    &'c Option<String>,
+    bool,
+    bool,
+    bool,
+) {
     // Defines files extension
     let js_extension: String = if !has_javascript {
         String::from(".tsx")
@@ -83,11 +99,22 @@ pub fn create_component<'a, 'b, 'c>(
         String::from(".css")
     };
 
-    // All this to get current working directory and get it for concatenable type
+    // Treats optional string arguments (comp_format and comp_type)
+    let component_type: &str = match comp_type {
+        Some(s) => s,
+        None => "common",
+    };
+    let component_format: &str = match comp_format {
+        Some(s) => s,
+        None => "tsdrpfc",
+    };
 
     // Creating component directory
-    let dir_binding =
-        &(get_current_working_dir() + &("/src/components/".to_owned()) + comp_type + "/" + name);
+    let dir_binding = &(get_current_working_dir()
+        + &("/src/components/".to_owned())
+        + component_type
+        + "/"
+        + name);
     let component_dir: &Path = Path::new(dir_binding);
 
     // ---------------------------
@@ -103,7 +130,7 @@ pub fn create_component<'a, 'b, 'c>(
         // Index file creation
         let index_binding = &(get_current_working_dir()
             + &("/src/components/".to_owned())
-            + comp_type
+            + component_type
             + "/"
             + name
             + "/index"
@@ -115,7 +142,7 @@ pub fn create_component<'a, 'b, 'c>(
         if !has_no_style {
             let css_binding = &(get_current_working_dir()
                 + &("/src/components/".to_owned())
-                + comp_type
+                + component_type
                 + "/"
                 + name
                 + "/style"
@@ -126,11 +153,11 @@ pub fn create_component<'a, 'b, 'c>(
 
         // Console output when component created
         println!(
-            "\nCreated new component in src/components/{}/{}",
+            "\nCreated new component in src/components/{:?}/{}",
             comp_type, name
         );
-        println!("Component format choosen: {}", comp_format);
-        println!("Component type choosen: {}", comp_type);
+        println!("Component format choosen: {:?}", comp_format);
+        println!("Component type choosen: {:?}", comp_type);
         if !has_javascript {
             println!("Created index.tsx");
         } else {
@@ -147,7 +174,7 @@ pub fn create_component<'a, 'b, 'c>(
     // If component already exists
     // ---------------------------
     else {
-        println!("Component {} in {} already exists.", name, comp_type)
+        println!("Component {} in {:?} already exists.", name, comp_type)
     }
 
     return (
