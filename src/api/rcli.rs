@@ -6,7 +6,9 @@ use std::{
 use crate::api::creates_helpers::create_component_file;
 
 use super::{
-    creates_helpers::{create_folder_structure, create_src_files, init_vite_project},
+    creates_helpers::{
+        create_folder_structure, create_src_files, get_current_working_dir, init_vite_project,
+    },
     files_contents::{inject_files, return_files},
 };
 
@@ -81,18 +83,26 @@ pub fn create_component<'a, 'b, 'c>(
         String::from(".css")
     };
 
-    let dir_binding = &("test-proj/src/components/".to_owned() + comp_type + "/" + name);
+    // All this to get current working directory and get it for concatenable type
+
+    // Creating component directory
+    let dir_binding =
+        &(get_current_working_dir() + &("/src/components/".to_owned()) + comp_type + "/" + name);
     let component_dir: &Path = Path::new(dir_binding);
+
+    // ---------------------------
+    // If component does not exist
+    // ---------------------------
     if !component_dir.exists() {
         // Directory creation
-
         match fs::create_dir_all(component_dir) {
             Err(e) => println!("{:?}", e),
             _ => (),
         };
 
         // Index file creation
-        let index_binding = &("test-proj/src/components/".to_owned()
+        let index_binding = &(get_current_working_dir()
+            + &("/src/components/".to_owned())
             + comp_type
             + "/"
             + name
@@ -103,7 +113,8 @@ pub fn create_component<'a, 'b, 'c>(
 
         // Style file creation
         if !has_no_style {
-            let css_binding = &("test-proj/src/components/".to_owned()
+            let css_binding = &(get_current_working_dir()
+                + &("/src/components/".to_owned())
                 + comp_type
                 + "/"
                 + name
@@ -132,7 +143,9 @@ pub fn create_component<'a, 'b, 'c>(
             println!("Component created with basic CSS and not SCSS.")
         }
     }
-    // IF COMPONENT ALREADY EXISTS
+    // ---------------------------
+    // If component already exists
+    // ---------------------------
     else {
         println!("Component {} in {} already exists.", name, comp_type)
     }

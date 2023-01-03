@@ -1,4 +1,5 @@
 use std::{
+    env,
     fs::{self, File},
     path::Path,
     process::Command,
@@ -86,4 +87,14 @@ pub fn create_component_file(path: &Path) {
         Err(e) => panic!("Couldn't create component file: {}", e),
         Ok(file) => file,
     };
+}
+
+pub fn get_current_working_dir() -> String {
+    let path_buf = env::current_dir();
+    let result_current_dir = match path_buf {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+    let current_dir = result_current_dir.display().to_string();
+    current_dir
 }
